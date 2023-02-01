@@ -6,13 +6,30 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-    id String @id @unique
+    id String @id @map("_id")
     email String @unique
     name String?
+    password String
 }
+
+enum ItemType {
+    post
+    link
+}
+
+model FeedItem {
+    id String @id @map("_id")
+    type ItemType
+    categories String[]
+    title String
+    subtitle String?
+    content String
+    external Boolean @default(false)
+}
+
+// TODO: actually setup mongodb
